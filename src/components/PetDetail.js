@@ -1,7 +1,34 @@
-import React from "react";
-import petsData from "../petsData";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getPetId, updatePet } from "../api/pets";
+import { useQuery } from "@tanstack/react-query";
+
 const PetDetail = () => {
-  const pet = petsData[0];
+  const { petId } = useParams();
+
+  const { data: pet, isLoading } = useQuery({
+    queryKey: ["pet", petId],
+    queryFn: () => getPetId(petId),
+  });
+
+  if (isLoading) return <h1>Loading...</h1>;
+
+  // const [pet, setPet] = useState({});
+
+  // const callApi = async () => {
+  //   const res = await getPetId(petId);
+  //   console.log(res);
+  //   setPet(res);
+  // };
+
+  // useEffect(() => {
+  //   callApi();
+  // }, []);
+
+  if (!petId) {
+    return <h1> There is no pet with the id: {petId} </h1>;
+  }
+
   return (
     <div className="bg-[#F9E3BE] w-screen h-[100vh] flex justify-center items-center">
       <div className="border border-black rounded-md w-[70%] h-[70%] overflow-hidden flex flex-col md:flex-row p-5">
@@ -17,8 +44,15 @@ const PetDetail = () => {
           <h1>Type: {pet.type}</h1>
           <h1>adopted: {pet.adopted}</h1>
 
-          <button className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5">
+          <button
+            onClick={() => {}}
+            className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5"
+          >
             Adobt
+          </button>
+
+          <button className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5">
+            Update
           </button>
 
           <button className="w-[70px] border border-black rounded-md  hover:bg-red-400">
