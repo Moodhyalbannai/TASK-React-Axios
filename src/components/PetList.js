@@ -13,8 +13,6 @@ const PetList = () => {
     queryFn: () => getAllPets(),
   });
 
-  // const [petsData, setPetsData] = useState([]);
-
   // const callApi = async () => {
   //   const res = await getAllPets();
   //   setPetsData(res);

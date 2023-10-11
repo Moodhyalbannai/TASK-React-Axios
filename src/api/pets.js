@@ -12,10 +12,10 @@ const getPetId = async (petId) => {
 
 const createPet = async (name, type, image, adopted) => {
   const res = await instance.post(`/pets`, {
-    name: name,
-    type: type,
-    image: image,
-    adopted: adopted,
+    name,
+    type,
+    image,
+    adopted,
   });
   return res.data;
 };

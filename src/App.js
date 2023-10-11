@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound";
 
 import instance from "./api";
 import { useEffect } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
   // const callAPI = async () => {

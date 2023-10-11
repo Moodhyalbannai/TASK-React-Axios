@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getPetId, updatePet } from "../api/pets";
-import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { deletePet, getPetId, updatePet } from "../api/pets";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const PetDetail = () => {
   const { petId } = useParams();
@@ -11,23 +11,27 @@ const PetDetail = () => {
     queryFn: () => getPetId(petId),
   });
 
+  // const { mutation } = useMutation({
+  //   mutationKey: ["pet", petId],
+  //   mutationFn: () => getPetId(petId),
+  // });
+
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { mutate: handleAdoptPet } = useMutation({
+    mutationKey: ["UpdateAdopt"],
+    mutationFn: () => updatePet(petId, pet.name, pet.type, pet.image),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["pets"]);
+      navigate("/pets");
+    },
+  });
+
   if (isLoading) return <h1>Loading...</h1>;
 
-  // const [pet, setPet] = useState({});
-
-  // const callApi = async () => {
-  //   const res = await getPetId(petId);
-  //   console.log(res);
-  //   setPet(res);
-  // };
-
-  // useEffect(() => {
-  //   callApi();
-  // }, []);
-
-  if (!petId) {
-    return <h1> There is no pet with the id: {petId} </h1>;
-  }
+  // if (!petId) {
+  //   return <h1> There is no pet with the id: {petId} </h1>;
+  // }
 
   return (
     <div className="bg-[#F9E3BE] w-screen h-[100vh] flex justify-center items-center">
@@ -45,17 +49,19 @@ const PetDetail = () => {
           <h1>adopted: {pet.adopted}</h1>
 
           <button
-            onClick={() => {}}
+            onClick={handleAdoptPet}
             className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5"
           >
-            Adobt
+            Adopt
           </button>
 
-          <button className="w-[70px] border border-black rounded-md  hover:bg-green-400 mb-5">
-            Update
-          </button>
-
-          <button className="w-[70px] border border-black rounded-md  hover:bg-red-400">
+          <button
+            onClick={() => {
+              deletePet(petId);
+              navigate("/pets");
+            }}
+            className="w-[70px] border border-black rounded-md  hover:bg-red-400"
+          >
             Delete
           </button>
         </div>
@@ -65,3 +71,31 @@ const PetDetail = () => {
 };
 
 export default PetDetail;
+
+// const [pet, setPet] = useState({});
+
+// const callApi = async () => {
+//   const res = await getPetId(petId);
+//   console.log(res);
+//   setPet(res);
+// };
+
+// useEffect(() => {
+//   callApi();
+// }, []);
+
+// const updatePet = () => {
+//   mutation.mutate({ petId, name, type, image });
+// };
+
+// if (mutation.isLoading) {
+//   return <span>Updating...</span>;
+// }
+
+// if (mutation.isError) {
+//   return <span>Error: {mutation.error.message}</span>;
+// }
+
+// if (mutation.isSuccess) {
+//   return <span>Post submitted!</span>;
+// }
