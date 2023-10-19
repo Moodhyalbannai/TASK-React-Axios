@@ -12,18 +12,9 @@ import { useEffect } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
-  // const callAPI = async () => {
-  //   const res = await getAllPets();
-  //   setPets(res);
-
-  // useEffect(() => {
-  //   callAPI();
-  // }, []);
-
   return (
     <div className="font-mono">
       <Navbar></Navbar>
-
       <Routes>
         <Route path="/" Component={Home} />
         <Route path="/pets" Component={PetList} />

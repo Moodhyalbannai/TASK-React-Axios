@@ -8,8 +8,7 @@ const PetItem = ({ pet }) => {
       <img
         src={pet.image}
         alt={`${pet.name}-image`}
-        className="w-[200px] rounded-md
-      "
+        className="w-[200px] rounded-md"
       />
       <Link to={`/pets/${pet.id}`}>
         <button className=" border border-black px-5 py-1 rounded-md hover:bg-[black] hover:text-white">

@@ -11,11 +11,6 @@ const PetDetail = () => {
     queryFn: () => getPetId(petId),
   });
 
-  // const { mutation } = useMutation({
-  //   mutationKey: ["pet", petId],
-  //   mutationFn: () => getPetId(petId),
-  // });
-
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { mutate: handleAdoptPet } = useMutation({
@@ -29,9 +24,9 @@ const PetDetail = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
 
-  // if (!petId) {
-  //   return <h1> There is no pet with the id: {petId} </h1>;
-  // }
+  if (!petId) {
+    return <h1> There is no pet with the id: {petId} </h1>;
+  }
 
   return (
     <div className="bg-[#F9E3BE] w-screen h-[100vh] flex justify-center items-center">
@@ -71,31 +66,3 @@ const PetDetail = () => {
 };
 
 export default PetDetail;
-
-// const [pet, setPet] = useState({});
-
-// const callApi = async () => {
-//   const res = await getPetId(petId);
-//   console.log(res);
-//   setPet(res);
-// };
-
-// useEffect(() => {
-//   callApi();
-// }, []);
-
-// const updatePet = () => {
-//   mutation.mutate({ petId, name, type, image });
-// };
-
-// if (mutation.isLoading) {
-//   return <span>Updating...</span>;
-// }
-
-// if (mutation.isError) {
-//   return <span>Error: {mutation.error.message}</span>;
-// }
-
-// if (mutation.isSuccess) {
-//   return <span>Post submitted!</span>;
-// }
